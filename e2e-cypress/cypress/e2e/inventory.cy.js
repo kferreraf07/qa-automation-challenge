@@ -2,20 +2,17 @@ import LoginPage     from '../pages/LoginPage';
 import InventoryPage from '../pages/InventoryPage';
 
 describe('Inventario — SauceDemo', () => {
-  let testData;
+  let users;
+  let products;
 
   before(() => {
-    cy.fixture('saucedemo').then((data) => {
-      testData = data;
-    });
+    cy.fixture('users').then((data) => { users = data; });
+    cy.fixture('products').then((data) => { products = data; });
   });
 
   beforeEach(() => {
     LoginPage.visit();
-    LoginPage.login(
-      testData.credentials.username,
-      testData.credentials.password
-    );
+    LoginPage.login(users.validUser.username, users.validUser.password);
     cy.url().should('include', '/inventory.html');
   });
 
@@ -26,7 +23,7 @@ describe('Inventario — SauceDemo', () => {
   });
 
   it('Debe agregar un producto al carrito y mostrar el badge en 1', () => {
-    InventoryPage.addProductToCart(testData.products.product1);
+    InventoryPage.addProductToCart(products.product1);
 
     cy.get('.shopping_cart_badge')
       .should('be.visible')
@@ -34,8 +31,8 @@ describe('Inventario — SauceDemo', () => {
   });
 
   it('Debe agregar dos productos al carrito y mostrar el badge en 2', () => {
-    InventoryPage.addProductToCart(testData.products.product1);
-    InventoryPage.addProductToCart(testData.products.product2);
+    InventoryPage.addProductToCart(products.product1);
+    InventoryPage.addProductToCart(products.product2);
 
     cy.get('.shopping_cart_badge')
       .should('be.visible')
@@ -43,10 +40,8 @@ describe('Inventario — SauceDemo', () => {
   });
 
   it('Debe mostrar el nombre y precio de cada producto', () => {
-    cy.contains('.inventory_item_name', testData.products.product1)
-      .should('be.visible');
-    cy.contains('.inventory_item_name', testData.products.product2)
-      .should('be.visible');
+    cy.contains('.inventory_item_name', products.product1).should('be.visible');
+    cy.contains('.inventory_item_name', products.product2).should('be.visible');
     cy.get('.inventory_item_price').first()
       .should('be.visible')
       .and('match', /^\$\d+\.\d{2}$/);

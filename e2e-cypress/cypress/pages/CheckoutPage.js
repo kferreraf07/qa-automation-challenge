@@ -7,7 +7,7 @@ class CheckoutPage {
   // ── Selectores — Paso 1: Información del comprador ────────
   get firstNameInput() { return cy.get('[data-test="firstName"]'); }
   get lastNameInput()  { return cy.get('[data-test="lastName"]'); }
-  get zipCodeInput()   { return cy.get('[data-test="postalCode"]'); }
+  get postalCodeInput() { return cy.get('[data-test="postalCode"]'); }
   get continueButton() { return cy.get('[data-test="continue"]'); }
 
   // ── Selectores — Paso 2: Resumen del pedido ───────────────
@@ -25,10 +25,10 @@ class CheckoutPage {
    * @param {string} lastName  - Apellido del comprador
    * @param {string} zipCode   - Código postal
    */
-  fillCheckoutInformation(firstName, lastName, zipCode) {
+  fillCheckoutInformation(firstName, lastName, postalCode) {
     this.firstNameInput.clear().type(firstName);
     this.lastNameInput.clear().type(lastName);
-    this.zipCodeInput.clear().type(zipCode);
+    this.postalCodeInput.clear().type(postalCode);
     this.continueButton.click();
   }
 

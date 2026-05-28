@@ -1,12 +1,12 @@
 import LoginPage from '../pages/LoginPage';
 
 describe('Login — SauceDemo', () => {
-  let testData;
+  let users;
+  let messages;
 
   before(() => {
-    cy.fixture('saucedemo').then((data) => {
-      testData = data;
-    });
+    cy.fixture('users').then((data) => { users = data; });
+    cy.fixture('messages').then((data) => { messages = data; });
   });
 
   beforeEach(() => {
@@ -14,10 +14,7 @@ describe('Login — SauceDemo', () => {
   });
 
   it('Debe iniciar sesión exitosamente con credenciales válidas', () => {
-    LoginPage.login(
-      testData.credentials.username,
-      testData.credentials.password
-    );
+    LoginPage.login(users.validUser.username, users.validUser.password);
 
     cy.url().should('include', '/inventory.html');
     cy.get('.title').should('be.visible').and('have.text', 'Products');
@@ -25,12 +22,12 @@ describe('Login — SauceDemo', () => {
   });
 
   it('Debe mostrar error al ingresar credenciales incorrectas', () => {
-    LoginPage.login('usuario_invalido', 'clave_incorrecta');
+    LoginPage.login(users.invalidUser.username, users.invalidUser.password);
 
     cy.url().should('not.include', '/inventory.html');
     cy.get('[data-test="error"]')
       .should('be.visible')
-      .and('contain.text', 'Username and password do not match');
+      .and('contain.text', messages.loginError);
   });
 
   it('Debe mostrar el formulario de login al cargar la página', () => {

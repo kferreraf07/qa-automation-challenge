@@ -1,0 +1,5 @@
+{
+  "orderConfirmation": "Thank you for your order!",
+  "loginError": "Username and password do not match",
+  "checkoutError": "First Name is required"
+}
