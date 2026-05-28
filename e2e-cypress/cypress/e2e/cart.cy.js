@@ -22,9 +22,10 @@ describe('Carrito — SauceDemo', () => {
 
   it('Debe mostrar el carrito vacío al no agregar productos', () => {
     InventoryPage.goToCart();
+
     cy.url().should('include', '/cart.html');
-    CartPage.assertPageLoaded();
-    CartPage.cartItems.should('have.length', 0);
+    cy.get('.title').should('be.visible').and('have.text', 'Your Cart');
+    cy.get('.cart_item').should('have.length', 0);
     cy.get('.shopping_cart_badge').should('not.exist');
   });
 
@@ -32,10 +33,20 @@ describe('Carrito — SauceDemo', () => {
     InventoryPage.addProductToCart(testData.products.product1);
     InventoryPage.addProductToCart(testData.products.product2);
     InventoryPage.goToCart();
+
     cy.url().should('include', '/cart.html');
-    CartPage.assertPageLoaded();
-    CartPage.assertItemCount(2);
-    CartPage.assertProductInCart(testData.products.product1);
-    CartPage.assertProductInCart(testData.products.product2);
+    cy.get('.title').should('be.visible').and('have.text', 'Your Cart');
+    cy.get('.cart_item').should('have.length', 2);
+    cy.contains('.cart_item', testData.products.product1).should('be.visible');
+    cy.contains('.cart_item', testData.products.product2).should('be.visible');
+  });
+
+  it('Debe mostrar el botón de checkout habilitado en el carrito', () => {
+    InventoryPage.addProductToCart(testData.products.product1);
+    InventoryPage.goToCart();
+
+    cy.get('[data-test="checkout"]')
+      .should('be.visible')
+      .and('not.be.disabled');
   });
 });

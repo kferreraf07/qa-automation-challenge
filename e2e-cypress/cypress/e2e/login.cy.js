@@ -18,12 +18,24 @@ describe('Login — SauceDemo', () => {
       testData.credentials.username,
       testData.credentials.password
     );
+
     cy.url().should('include', '/inventory.html');
+    cy.get('.title').should('be.visible').and('have.text', 'Products');
+    cy.get('.inventory_list').should('be.visible');
   });
 
   it('Debe mostrar error al ingresar credenciales incorrectas', () => {
     LoginPage.login('usuario_invalido', 'clave_incorrecta');
+
     cy.url().should('not.include', '/inventory.html');
-    LoginPage.assertErrorMessage(testData.expectedMessages.loginError);
+    cy.get('[data-test="error"]')
+      .should('be.visible')
+      .and('contain.text', 'Username and password do not match');
+  });
+
+  it('Debe mostrar el formulario de login al cargar la página', () => {
+    cy.get('#user-name').should('be.visible');
+    cy.get('#password').should('be.visible');
+    cy.get('#login-button').should('be.visible').and('have.value', 'Login');
   });
 });
