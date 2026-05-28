@@ -1,0 +1,102 @@
+═══════════════════════════════════════════════════════════════════
+  CONCLUSIONES — AUTOMATIZACIÓN API
+  Colección: Petstore Users CRUD
+  Autor: Kelin Ferrera
+  Fecha: Mayo 2026
+═══════════════════════════════════════════════════════════════════
+
+RESULTADOS OBTENIDOS
+────────────────────
+  Se automatizaron exitosamente los 5 endpoints del CRUD de usuarios
+  de la API PetStore Swagger, cubriendo el ciclo completo de vida de
+  un recurso: creación, lectura, actualización y eliminación.
+
+  Requests implementados   : 5
+  Validaciones por request : 4–6 assertions
+  Total de assertions      : 23
+  Tasa de éxito esperada   : 100% (entorno estable)
+
+  Tiempos de respuesta observados (promedio):
+    POST /user    → ~400ms
+    GET  /user    → ~350ms
+    PUT  /user    → ~400ms
+    DELETE /user  → ~380ms
+
+COBERTURA DE PRUEBAS
+────────────────────
+  ✔ Creación de usuario con datos completos (POST)
+  ✔ Validación de status codes (200 en todos los casos)
+  ✔ Validación de estructura del response body
+  ✔ Validación de valores específicos de campos
+  ✔ Verificación de persistencia de datos tras creación
+  ✔ Verificación de actualización efectiva de campos
+  ✔ Confirmación de eliminación del recurso
+  ✔ Validación de tiempos de respuesta < 5000ms
+  ✔ Uso de variables de entorno para parametrización
+
+  Cobertura de campos validados:
+    - id, username, firstName, lastName, email, phone, userStatus
+    - code, type, message (en responses de operaciones)
+
+BENEFICIOS DE LA AUTOMATIZACIÓN API
+──────────────────────────────────────
+  1. VELOCIDAD: Los 5 requests se ejecutan en < 3 segundos vs.
+     10–15 minutos de prueba manual.
+
+  2. REPETIBILIDAD: Cada ejecución valida exactamente los mismos
+     criterios, eliminando el error humano.
+
+  3. INTEGRACIÓN CI/CD: Newman permite integrar las pruebas en
+     pipelines de GitHub Actions, Jenkins o GitLab CI.
+
+  4. DOCUMENTACIÓN VIVA: La colección Postman sirve tanto como
+     herramienta de prueba como documentación de la API.
+
+  5. TRAZABILIDAD: Los reportes HTML de newman-reporter-htmlextra
+     proveen evidencia clara de cada ejecución.
+
+VARIABLES DINÁMICAS Y PARAMETRIZACIÓN
+──────────────────────────────────────
+  Se utilizaron variables de colección y entorno para:
+  - Centralizar la base URL (cambio en un único lugar)
+  - Parametrizar el username para reutilización
+  - Facilitar la ejecución en distintos ambientes (dev, staging, prod)
+  solo cambiando el entorno seleccionado.
+
+LIMITACIONES ENCONTRADAS
+─────────────────────────
+  1. API PÚBLICA COMPARTIDA: PetStore es una API de demostración
+     pública. Los datos pueden ser modificados por otros usuarios
+     concurrentemente, lo que puede causar resultados inconsistentes
+     en ambientes de alta carga.
+
+  2. SIN AUTENTICACIÓN: La API no requiere autenticación, lo que
+     simplifica las pruebas pero no refleja APIs productivas reales.
+
+  3. PERSISTENCIA LIMITADA: Los datos en PetStore no son persistentes
+     a largo plazo. La API puede resetear datos periódicamente.
+
+MEJORAS FUTURAS
+────────────────
+  1. Agregar pruebas de campos requeridos/opcionales y validación
+     de esquemas JSON con Ajv o bibliotecas similares.
+
+  2. Implementar pruebas de seguridad básicas:
+     - Inyección SQL en campos de texto
+     - Intentar acceder a usuarios de otros IDs
+
+  3. Agregar pruebas de rendimiento con k6 o Artillery para medir
+     comportamiento bajo carga simultánea.
+
+  4. Implementar data-driven testing con múltiples sets de datos
+     para aumentar la cobertura de casos límite.
+
+  5. Configurar ejecución automática en CI/CD (GitHub Actions)
+     con notificaciones de fallos por email/Slack.
+
+  6. Agregar pruebas negativas:
+     - Intentar crear usuario con ID duplicado
+     - Buscar usuario inexistente (404)
+     - Enviar body mal formado (400)
+
+═══════════════════════════════════════════════════════════════════

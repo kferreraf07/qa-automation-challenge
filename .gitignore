@@ -1,0 +1,20 @@
+# Node
+node_modules/
+npm-debug.log*
+
+# Cypress artefactos (se regeneran en cada ejecución)
+e2e-cypress/cypress/videos/
+e2e-cypress/cypress/screenshots/
+e2e-cypress/cypress/reports/
+
+# Newman reportes (se regeneran en cada ejecución)
+api-postman/reports/newman-report.html
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+*.swp
